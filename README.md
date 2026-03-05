@@ -51,6 +51,8 @@ CS485G: Applied Bioinformatics S26 Repository
 <details>
 <summary>Adaptors</summary>
 1. Adaptors were trimmed, see below for sequences:
+
+  ```
  >PrefixNX/1
 AGATGTGTATAAGAGACAG
 >PrefixNX/2
@@ -67,21 +69,28 @@ CTGTCTCTTATACACATCTCCGAGCCCACGAGAC
 GATCGGAAGAGCACACGTCTGAACTCCAGTCACTTAGGCATCTCGTATGC
 >polyG
 GGGGGGGGGGGGGGGGGGGG
+```
 </details>
 <details>
 <summary>Trimmomatic</summary>
-1. Trimmomatic 
+1. Trimmomatic was run to trim the data.
+  
   ```
 java -jar trimmomatic-0.38.jar PE -threads 2 -phred33 -trimlog Br80_errorlog.txt ./Bc394/Bc394_1.fq.gz ./Bc394/Bc394_2.fq.gz ./Bc394/Bc394_1_paired.fastq ./Bc394/Bc394_1_unpaired.fastq ./Bc394/Bc394_2_paired.fastq ./Bc394/Bc394_2_unpaired.fastq ILLUMINACLIP:adaptors.fa:2:30:10 SLIDINGWINDOW:20:20 MINLEN:125
   ```
 </details>
-4. Fast QC was run again using this code on the paired and unpaired trimmed reads:
+<details>
+<summary>FastQC pt. 2</summary>
+1. Fast QC was run again using this code on the paired and unpaired trimmed reads:
    
   ```
   fastqc /home/xrar222/sequences/Bc394/Bc394_1_unpaired.fastq /home/xrar222/sequences/Bc394/Bc394_1_paired.fastq /home/xrar222/sequences/Bc394/Bc394_2_unpaired.fastq /home/xrar222/sequences/Bc394/Bc394_2_paired.fastq -o /home/xrar222/sequences
   ```
+</details>
 
-  5. To determine the number of trimmed bases these codes were used (seperate for r1 and r2, added afterwards)
+<details>
+<summary>Trimmed Bases</summary>
+1. To determine the number of trimmed bases these codes were used (seperate for r1 and r2, added afterwards)
 
   ```
   grep LH00659 Bc394_1_paired.fastq -A 1 | grep -v "@LH00659" | grep -v "^-" | wc -m
@@ -89,9 +98,12 @@ java -jar trimmomatic-0.38.jar PE -threads 2 -phred33 -trimlog Br80_errorlog.txt
   ```
   grep LH00659 Bc394_2_paired.fastq -A 1 | grep -v "@LH00659" | grep -v "^-" | wc -m
   ```
+</details>
 
 ## Optimizing Genome Assembly 
-  1. Transfer Data to MCC:
+<details>
+<summary>Transferring Data</summary>
+  1. From VM to MCC:
 
 ```
 scp xrar222@xrar222.cs.uky.edu:/home/xrar222/sequences/Bc394/Bc394_1_paired.fastq /project/farman_s26abt480/xrar222/Bc394
@@ -100,12 +112,15 @@ scp xrar222@xrar222.cs.uky.edu:/home/xrar222/sequences/Bc394/Bc394_1_unpaired.fa
 scp xrar222@xrar222.cs.uky.edu:/home/xrar222/sequences/Bc394/Bc394_2_unpaired.fastq /project/farman_s26abt480/xrar222/Bc394
 
 ```
-###Using Velvet:
-  Used Velvet Advisor (https://dna.med.monash.edu/~torsten/velvet_advisor/) to determine 77 was the suggested kmer length (based on 5.39 million reads, 150bp length, paired end, 20 fold coverage,and a 40Mbp genome size)
-    Assembly script:
+</details>
+
 <details>
-<summary>Click to expand</summary>
+<summary>Using Velvet</summary>
+  Used Velvet Advisor (https://dna.med.monash.edu/~torsten/velvet_advisor/) to determine 77 was the suggested kmer length (based on 5.39 million reads, 150bp length, paired end, 20 fold coverage,and a 40Mbp genome size)
+
+<summary>Velvet Assembly Script 10 step</summary>
   
+ ``` 
 #!/bin/bash
 
 #SBATCH --time 48:00:00
@@ -153,7 +168,7 @@ echo "SLURM_NODELIST: "$SLURM_NODELIST
   rm forward.fq
   rm reverse.fq
   
-</details>
+```
 
 Submitted job using:
 
@@ -167,6 +182,7 @@ then, to get to the better kmer length based off the optimal velvet hash value o
 ```
 sbatch velvetoptimiser.sh Bc394 87 107 2
 ```
+</details>
 ### Using SPAdes:
 
 copied slurm script using 
