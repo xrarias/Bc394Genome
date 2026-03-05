@@ -5,7 +5,7 @@ CS485G: Applied Bioinformatics S26 Repository
   name species info stuff here
 </details>
 
-## Getting Started
+## Retrieving Dataset
 <details>
   <summary>Setting Up The Workspace</summary>
 1. Set up of VM using code
@@ -38,7 +38,7 @@ CS485G: Applied Bioinformatics S26 Repository
   
 </details>
 
-## Checking Quality and Trimming
+## Assessing Sequence Quality And Trimming
 <details>
 <summary>Click to expand</summary>
 1. Fastqc was run on raw reads
@@ -89,7 +89,7 @@ java -jar trimmomatic-0.38.jar PE -threads 2 -phred33 -trimlog Br80_errorlog.txt
   grep LH00659 Bc394_2_paired.fastq -A 1 | grep -v "@LH00659" | grep -v "^-" | wc -m
   ```
 
-## Genome Assembly
+## Optimizing Genome Assembly 
   1. Transfer Data to MCC:
 
 ```
@@ -99,7 +99,7 @@ scp xrar222@xrar222.cs.uky.edu:/home/xrar222/sequences/Bc394/Bc394_1_unpaired.fa
 scp xrar222@xrar222.cs.uky.edu:/home/xrar222/sequences/Bc394/Bc394_2_unpaired.fastq /project/farman_s26abt480/xrar222/Bc394
 
 ```
-  2. Using Velvet:
+###Using Velvet:
   Used Velvet Advisor (https://dna.med.monash.edu/~torsten/velvet_advisor/) to determine 77 was the suggested kmer length (based on 5.39 million reads, 150bp length, paired end, 20 fold coverage,and a 40Mbp genome size)
     Assembly script:
 <details>
@@ -166,8 +166,7 @@ then, to get to the better kmer length based off the optimal velvet hash value o
 ```
 sbatch velvetoptimiser.sh Bc394 87 107 2
 ```
-
-  4. Using SPAdes:
+### Using SPAdes:
 
 copied slurm script using 
 
@@ -298,7 +297,7 @@ awk '/^>/ {if (l){print l}; l=0; next} {l+=length($0)} END {print l}' scaffolds.
 
 It was determined that using the Spades assembly using only paired reads was best, so we looked into Bandage next
 
-  6. Looking at Bandage Plot
+## Bandage Plot
 downloaded Bandage from: https://rrwick.github.io/Bandage/
 Wick R.R., Schultz M.B., Zobel J. & Holt K.E. (2015). Bandage: interactive visualisation of de novo genome assemblies. Bioinformatics, 31(20), 3350-3352.
 
@@ -313,7 +312,7 @@ Here were the images resulting from using Bandage as directed in Module 3:
 <img width="723" height="431" alt="Bandange_SpadesGraphNode_Bc394" src="https://github.com/user-attachments/assets/d2d19b07-14a2-4660-b51a-c08507a59d4d" />
 
 
-7. Genome Post-Processing
+## Genome Post-Processing
 The Spades Paired-Only genome was determined to be the best for continuing, so post processing occured on this genome.
 
 
@@ -511,7 +510,7 @@ Submitted:
 sbatch /project/farman_s26abt480/xrar222/Bc394/GenomePostProcess.sh ./Bc394_newheader.fasta
 ```
 
-Final Assembly Data
+## Final Assembly Data
 
 Used Seqkit 
 ```
@@ -535,7 +534,7 @@ c. N50: 71,435
 Fold Coverage was calculated:
 Total # of bases / Genome Size
 
-#BUSCO
+## Genome Quality Assessment Using BUSCO
 
 Next we ran Busco using the ascomycota_odb10 lineage dataset. 
 
@@ -602,3 +601,4 @@ Dependencies and versions:
         python: sys.version_info(major=3, minor=7, micro=12, releaselevel='final', serial=0)
         busco: 5.7.0
 ```
+## Using BLAST, Visualizing Genes, Performing Gene Predictions
