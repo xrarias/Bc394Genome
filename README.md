@@ -563,7 +563,10 @@ out=${in/\.fasta/}_busco
 singularity run --app busco570 /share/singularity/images/ccs/conda/amd-conda14-rocky8.sinf busco \
  --in $in --out $out --mode genome --lineage_dataset ascomycota_odb10 -f
 ```
-
+Submission was:
+```
+sbatch BuscoSingularity.sh ./Bc394_final.fasta
+```
 Output was:
 ```
 # BUSCO version is: 5.7.0
