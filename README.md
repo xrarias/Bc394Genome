@@ -535,3 +535,67 @@ c. N50: 71,435
 Fold Coverage was calculated:
 Total # of bases / Genome Size
 
+#BUSCO
+
+Next we ran Busco using the ascomycota_odb10 lineage dataset. 
+
+```
+#!/bin/bash
+
+#SBATCH --time 8:00:00
+#SBATCH --job-name=busco
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --partition=normal
+#SBATCH --mem=180GB
+#SBATCH --mail-type ALL
+#SBATCH -A cea_farman_s26abt480
+#SBATCH --mail-type ALL
+#SBATCH --mail-user xrar222@uky.edu
+
+echo "SLURM_NODELIST: "$SLURM_NODELIST
+echo "PWD :" $PWD
+
+in=$1
+out=${in/\.fasta/}_busco
+
+singularity run --app busco570 /share/singularity/images/ccs/conda/amd-conda14-rocky8.sinf busco \
+ --in $in --out $out --mode genome --lineage_dataset ascomycota_odb10 -f
+```
+
+Output was:
+```
+# BUSCO version is: 5.7.0
+# The lineage dataset is: ascomycota_odb10 (Creation date: 2024-01-08, number of genomes: 365, number of BUSCOs: 1706)
+# Summarized benchmarking in BUSCO notation for file /project/farman_s26abt480/xrar222/Bc394_final.fasta
+# BUSCO was run in mode: euk_genome_min
+# Gene predictor used: miniprot
+
+        ***** Results: *****
+
+        C:98.3%[S:98.0%,D:0.3%],F:0.2%,M:1.5%,n:1706,E:3.5%
+        1677    Complete BUSCOs (C)     (of which 58 contain internal stop codons)
+        1672    Complete and single-copy BUSCOs (S)
+        5       Complete and duplicated BUSCOs (D)
+        4       Fragmented BUSCOs (F)
+        25      Missing BUSCOs (M)
+        1706    Total BUSCO groups searched
+
+Assembly Statistics:
+        2960    Number of scaffolds
+        3058    Number of contigs
+        43534695        Total length
+        0.015%  Percent gaps
+        71 KB   Scaffold N50
+        64 KB   Contigs N50
+
+
+Dependencies and versions:
+        hmmsearch: 3.1
+        bbtools: 39.06
+        miniprot_index: 0.13-r248
+        miniprot_align: 0.13-r248
+        python: sys.version_info(major=3, minor=7, micro=12, releaselevel='final', serial=0)
+        busco: 5.7.0
+```
