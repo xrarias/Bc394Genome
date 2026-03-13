@@ -46,6 +46,21 @@ CS485G: Applied Bioinformatics S26 Repository
 ```
     fastqc ./Bc394/Bc394_1.fq.gz ./Bc394/Bc394_2.fq.gz -o ~/sequences/
 ```
+2. Orange and red quality messages from FastQC for the raw data are below:
+  Read 1:
+    Per tile sequence quality (yellow))
+    Per base sequence content (red)
+    Per sequence GC content (yellow)
+    Overrepresented sequences (yellow)
+    Adaptor Content (red)
+  <img width="959" height="362" alt="Read1RawFastQCReport Bc394" src="https://github.com/user-attachments/assets/9138ba46-4ca6-48bd-8384-f314a5f9d791" />
+
+  Read 2:
+    Per base sequence content (red)
+    Per sequence GC content (yellow)
+    Overrepresented sequences(yellow)
+    Adaptor content (red)
+  <img width="954" height="357" alt="Read2RawFastQCReport Bc394" src="https://github.com/user-attachments/assets/ea9bf506-77d4-4e0b-b5e4-3e1c2a6bc1b0" />
 
 </details>
 <details>
@@ -86,6 +101,40 @@ java -jar trimmomatic-0.38.jar PE -threads 2 -phred33 -trimlog Br80_errorlog.txt
   ```
   fastqc /home/xrar222/sequences/Bc394/Bc394_1_unpaired.fastq /home/xrar222/sequences/Bc394/Bc394_1_paired.fastq /home/xrar222/sequences/Bc394/Bc394_2_unpaired.fastq /home/xrar222/sequences/Bc394/Bc394_2_paired.fastq -o /home/xrar222/sequences
   ```
+2. Orange and red quality messages from FastQC for the trimmed data are below:
+  Read 1 Paired:
+   Per tile sequence quality (yellow)
+   Per base sequence content (red)
+   Per sequence GC content (yellow)
+   Sequence length distribution (yellow)
+<img width="955" height="369" alt="Read1PairedTrimmedFastQCReport Bc394" src="https://github.com/user-attachments/assets/3907a69a-1565-46d5-8fad-22adab4ed9da" />
+
+   
+  Read 1 Unpaired:
+   Per tile sequence quality (yellow)
+   Per base sequence content (red)
+   Per sequence GC content (yellow)
+   Sequence length distribution (yellow)
+<img width="959" height="364" alt="Read1UnpairedTrimmedFastQCReport Bc394" src="https://github.com/user-attachments/assets/4212e10b-1feb-41ee-8090-bb37a7824a43" />
+
+   
+  Read 2 Paired:
+   Per tile sequence quality (yellow)
+   Per base sequence content (red)
+   Per sequence GC content (yellow)
+   Sequence length distribution (yellow)
+   Adapter Content (yellow)
+<img width="956" height="365" alt="Read2PairedTrimmedFastQCReport Bc394" src="https://github.com/user-attachments/assets/dbb00a54-51ed-47ca-a01b-5c1f4209a1c4" />
+
+   
+  Read 2 Unpaired:
+   Per tile sequence quality (yellow)
+   Per base sequence content (red)
+   Per sequence GC content (yellow)
+   Sequence length distribution (yellow)
+   Adapter Content (red)
+<img width="959" height="371" alt="Read2UnpairedTrimmedFastQCReport Bc394" src="https://github.com/user-attachments/assets/2d5a8a53-ab3e-4c97-bf73-cef17af6dd96" />
+
 </details>
 
 <details>
