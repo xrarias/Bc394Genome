@@ -2,9 +2,38 @@
 CS485G: Applied Bioinformatics S26 Repository
 <details>
 <summary>Organism Information</summary>
+
+  
 Organism: Pyricularia oryzae
-Host of Organism: Bromus catharticus
-Name of 
+
+Host of Organism: Bromus catharticus leaf
+
+Name of Isolate/Genome Individual: Bc394
+
+Year Collected: 2024
+
+Geographic Location of Collection: Brazil: Yaguarón
+
+Bioproject: PRJNA926786
+
+Biosample ID: SAMN55078751
+
+Library Strategy: WGS
+
+Library Source: Genomic
+
+Library Selection: Random
+
+Library Layout: Paired
+
+Platform: Illumina
+
+Instrument: NovaSeq X
+
+Extraction: SparQ DNA Library Prep
+
+
+
 </details>
 
 ## Retrieving Dataset
