@@ -761,3 +761,29 @@ Bc394_contig1681,mitochondrion
   because contig1122 had a 101 base difference (possible gap)
   and contig1462 and contig1681 overlapped. 
 ```
+This is the mitochondiral contig file:[Bc394_mitochondrion.csv](https://github.com/user-attachments/files/26286668/Bc394_mitochondrion.csv)
+Bc394_contig829,mitochondrion
+Bc394_contig1011,mitochondrion
+Bc394_contig1208,mitochondrion
+Bc394_contig1287,mitochondrion
+Bc394_contig1292,mitochondrion
+Bc394_contig1294,mitochondrion
+Bc394_contig1385,mitochondrion
+Bc394_contig1412,mitochondrion
+Bc394_contig1478,mitochondrion
+Bc394_contig1481,mitochondrion
+Bc394_contig1513,mitochondrion
+Bc394_contig1576,mitochondrion
+Bc394_contig1631,mitochondrion
+Bc394_contig1644,mitochondrion
+Bc394_contig1684,mitochondrion
+Bc394_contig1700,mitochondrion
+Bc394_contig1798,mitochondrion
+Bc394_contig1806,mitochondrion
+Bc394_contig1863,mitochondrion
+Bc394_contig1915,mitochondrion
+Bc394_contig2470,mitochondrion
+Bc394_contig1122,mitochondrion
+Bc394_contig1462,mitochondrion
+Bc394_contig1681,mitochondrion
+
