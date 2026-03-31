@@ -784,6 +784,8 @@ Bc394_contig1681,mitochondrion
   and contig1462 and contig1681 overlapped. 
 ```
 This is the mitochondiral contig file:[Bc394_mitochondrion.csv](https://github.com/user-attachments/files/26286668/Bc394_mitochondrion.csv)
+
+```
 Bc394_contig829,mitochondrion
 Bc394_contig1011,mitochondrion
 Bc394_contig1208,mitochondrion
@@ -808,4 +810,72 @@ Bc394_contig2470,mitochondrion
 Bc394_contig1122,mitochondrion
 Bc394_contig1462,mitochondrion
 Bc394_contig1681,mitochondrion
+```
 
+<details>
+<summary>Gene Prediction</summary>
+
+  Files were transferred from MCC to VM using the following code:
+
+```
+scp /project/farman_s26abt480/RESOURCES/B71Ref2_a0.3.gff3 xrar222@xrar222.cs.uky.edu:/home/xrar222/genes/snap
+```
+
+The genome fasta sequence was appended to the gff3 file using the following command:
+
+```
+echo '##FASTA' | cat B71Ref2_a0.3.gff3 - B71Ref2.fasta > B71Ref2.gff3
+```
+
+The MAKER annotations were converted to ZFF for using in SNAP:
+
+```
+maker2zff B71Ref2.gff3
+```
+
+Information on the annotations was gathered using fathom:
+
+```
+fathom genome.ann genome.dna -gene-stats
+```
+Which resulted in:
+
+```
+MODEL8478 skipped due to errors
+8 sequences
+0.497445 avg GC fraction (min=0.480103 max=0.512185)
+12378 genes (plus=6275 minus=6103)
+3479 (0.281063) single-exon
+8899 (0.718937) multi-exon
+567.119629 mean exon (min=1 max=17982)
+103.271423 mean intron (min=11 max=2968)
+```
+
+Genome regions containing unique genes were extracted using the following command, where 1000 indicates looking at up to 1000bp of intergenic sequence before and after each gene.
+
+```
+fathom genome.ann genome.dna -categorize 1000
+```
+
+Gene statistics were looked at again, this time on the unique and non-overlapping genes without alternative splicing:
+
+```
+fathom uni.ann uni.dna -gene-stats
+```
+
+Where the result was:
+
+```
+10732 sequences
+0.524754 avg GC fraction (min=0.357478 max=0.659509)
+10732 genes (plus=5451 minus=5281)
+3370 (0.314014) single-exon
+7362 (0.685986) multi-exon
+586.630676 mean exon (min=6 max=13918)
+102.167183 mean intron (min=31 max=2105)
+```
+
+
+
+
+</details>
