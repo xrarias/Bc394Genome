@@ -811,11 +811,11 @@ Bc394_contig1122,mitochondrion
 Bc394_contig1462,mitochondrion
 Bc394_contig1681,mitochondrion
 ```
-
+## Gene Prediction
 <details>
-<summary>Gene Prediction</summary>
+<summary>Setting up the HMM (Hidden Markov Model)</summary>
 
-  Files were transferred from MCC to VM using the following code:
+  1.Files were transferred from MCC to VM using the following code:
 
 ```
 scp /project/farman_s26abt480/RESOURCES/B71Ref2_a0.3.gff3 xrar222@xrar222.cs.uky.edu:/home/xrar222/genes/snap
@@ -919,7 +919,9 @@ And the final genome file was transferred from the MCC to the VM:
 ```
 scp /project/farman_s26abt480/xrar222/FinalSubmittedToNCBI/Bc394_final.fasta xrar222@xrar222.cs.uky.edu:/home/xrar222/genes/snap/
 ```
-
+</details>
+<details>
+<summary>Running SNAP</summary>
 SNAP was run using the parameter file on the genome file, and directed to the Bc394-snap.zff file.
 
 ```
