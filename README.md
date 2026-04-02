@@ -36,15 +36,14 @@ Extraction: SparQ DNA Library Prep
 
 </details>
 
-## Retrieving Dataset
+## Getting Started
 <details>
   <summary>Setting Up The Workspace</summary>
-1. Set up of VM using code
+  1. Set up of VM using code
    
   ```
     wget https://www.cs.uky.edu/~acta225/CS485/vm_soft_setup.sh
   ```
-
 2. Workshop materials
    
   ```
@@ -71,7 +70,6 @@ Extraction: SparQ DNA Library Prep
 </details>
 
 ## Assessing Sequence Quality And Trimming
--need to include fastQC code and versions of fastq and trimmomatic
 <details>
 <summary>FastQC pt. 1</summary>
 1. FastQC (v0.10.1) was first used on the raw reads using the following code:
@@ -216,16 +214,15 @@ scp xrar222@xrar222.cs.uky.edu:/home/xrar222/sequences/Bc394/Bc394_1_paired.fast
 scp xrar222@xrar222.cs.uky.edu:/home/xrar222/sequences/Bc394/Bc394_2_paired.fastq /project/farman_s26abt480/xrar222/Bc394
 scp xrar222@xrar222.cs.uky.edu:/home/xrar222/sequences/Bc394/Bc394_1_unpaired.fastq /project/farman_s26abt480/xrar222/Bc394
 scp xrar222@xrar222.cs.uky.edu:/home/xrar222/sequences/Bc394/Bc394_2_unpaired.fastq /project/farman_s26abt480/xrar222/Bc394
-
 ```
 </details>
 
 <details>
 <summary>Using Velvet 2.2.6 to Assemble</summary>
   
-  Used Velvet Advisor (https://dna.med.monash.edu/~torsten/velvet_advisor/) to determine 77 was the suggested kmer length (based on 5.39 million reads, 150bp length, paired end, 20 fold coverage, and a 40Mbp genome size)
+1. Used Velvet Advisor (https://dna.med.monash.edu/~torsten/velvet_advisor/) to determine 77 was the suggested kmer length (based on 5.39 million reads, 150bp length, paired end, 20 fold coverage, and a 40Mbp genome size)
 
-Velvet Assembly Script using 10 step process:
+2. Velvet Assembly Script using 10 step process:
   
  ``` 
 #!/bin/bash
@@ -277,22 +274,36 @@ echo "SLURM_NODELIST: "$SLURM_NODELIST
   
 ```
 
-Submitted job using:
+3. Submitted job using the following command where the high and low ranges are dictated by 37 as the suggested kmer length minus 40 and 117 as the suggested kmer length plus 40. The final part of the command, 10, is the step size.
 
 ```
 sbatch velvetoptimiser.sh Bc394 37 117 10
 ```
-where the high and low ranges are dictated by 37 as the suggested kmer length minus 40 and 117 as the suggested kmer length plus 40. The final part of the command, 10, is the step size.
 
-The result of this first Velvet run (step 10) led to determining the optimal Velvet hash value was 97. To discover the actual ideal kmer length, 87 was used as a low and 107 was used as a high, with a step size of 2. The original write out directory was renamed to first_run to prevent overwriting with this second run. 
+4. The result of this first Velvet run (step 10) led to determining the optimal Velvet hash value was 97. To discover the actual ideal kmer length, 87 was used as a low and 107 was used as a high, with a step size of 2. The original write out directory was renamed to first_run to prevent overwriting with this second run. 
 
 ```
 sbatch velvetoptimiser.sh Bc394 87 107 2
 ```
-</details>
-<summary> Using SPAdes 3.15.5 to Assemble</summary>
 
-The SPAdes script used is as follows:
+5. Next, the outcome of the step 10 and step 2 Velvet assemblies were compared:
+
+```
+   Velvet step 10:
+      # of contigs: 8,790
+      N50: 13,316
+      Genome Size: 44,039,166
+
+   Velvet step 2:
+      # of contigs: 7,409
+      N50: 16,969
+      Genome Size: 45,234,963
+```
+</details>
+<details>
+<summary>Using SPAdes 3.15.5 to Assemble</summary>
+
+1. The SPAdes script used was as follows, where, when submitted, the directory (readsdir) is /project/farman_s26abt480/xrar222/Bc394 and the MyGenome is Bc394.
 
 ```
 #!/bin/bash
@@ -323,9 +334,7 @@ singularity run --app spades3155 /share/singularity/images/ccs/conda/amd-conda9-
   -o ${MyGenome}_spades_assembly
 ```
 
-Where, when submitted, the directory (readsdir) is /project/farman_s26abt480/xrar222/Bc394 and the MyGenome is Bc394.
-
-Next, we wanted to look at:
+2. Next, we wanted to look at the following points for the assembly:
 
 Number of contigs: 
 
@@ -353,9 +362,7 @@ awk '/^>/ {if (l){print l}; l=0; next} {l+=length($0)} END {print l}' scaffolds.
 }'
 
 ```
-Dr Farman and I then wondered if using SPAdes without the unpaired reads would work best, so I tested it on my genome.
-
-The new SPAdes script using only paired reads is as follows:
+3. Dr. Mark Farman and I then wondered if using SPAdes without the unpaired reads would work best, so I tested it on my genome. The new SPAdes script using only paired reads was as follows:
 
 ```
 #!/bin/bash
@@ -385,9 +392,7 @@ singularity run --app spades3155 /share/singularity/images/ccs/conda/amd-conda9-
   -o ${MyGenome}_spades_assembly
 ```
 
-Where, when submitted, the directory (readsdir) is /project/farman_s26abt480/xrar222/Bc394 and the MyGenome is Bc394.
-
-Again, we looked at:
+4. Then, we looked at:
 
 Number of contigs: 
 
@@ -416,41 +421,64 @@ awk '/^>/ {if (l){print l}; l=0; next} {l+=length($0)} END {print l}' scaffolds.
 
 ```
 
-It was determined that using the SPAdes assembly using only paired reads was signficantly better.
+5. The outcome of the paired + unpaired vs paired SPAdes assemblies were compared:
+```
+   SPAdes (Paired + Unpaired):
+      # of contigs: 17,655
+      N50: 58,931
+      Genome Size: 45,234,963
 
+   SPAdes (Paired Only):
+      # of contigs: 5,613
+      N50: 71,381
+      Genome Size: 43,858,169
+```
+
+6. It was determined that using the SPAdes assembly using only paired reads was signficantly better when comparing all assemblers. The final SPAdes assembly with only paired reads was chosen to continue work on. 
+
+<img width="665" height="142" alt="image" src="https://github.com/user-attachments/assets/411b638d-3662-45f1-8f26-343c38d0821b" />
+
+</details>
 
 ## Bandage Plot
-downloaded Bandage from: https://rrwick.github.io/Bandage/
+<details>
+<summary>Bandage</summary>
+  
+1. Bandage was downloaded from: https://rrwick.github.io/Bandage/ onto my local machine.
+   
+```
 Wick R.R., Schultz M.B., Zobel J. & Holt K.E. (2015). Bandage: interactive visualisation of de novo genome assemblies. Bioinformatics, 31(20), 3350-3352.
+```
 
-used scp to download file: 
+3. Used scp to download file of assembly graph to my local machine for examination:
 ```
 scp xrar222@mcc.uky.edu:/project/farman_s26abt480/xrar222/Bc394/Bc394_spades_assembly_noUnpairedReads/assembly_graph_with_scaffolds.gfa C:\Users\xrar222\Downloads​
 ```
 
-Here were the images resulting from using Bandage as directed in Module 3:
+The following images resulted from using Bandage as directed in Module 3 in ABT485G, where we examined everything and then highlighted a nodeto explore further and gain understaning of how Bandage works:
+
+
 <img width="308" height="311" alt="Bandange_SpadesGraphNode_Bc394_SNIP" src="https://github.com/user-attachments/assets/255e9900-d552-4959-8686-c9a234c2487f" />
 
 <img width="723" height="431" alt="Bandange_SpadesGraphNode_Bc394" src="https://github.com/user-attachments/assets/d2d19b07-14a2-4660-b51a-c08507a59d4d" />
 
+</details>
 
 ## Genome Post-Processing
-The Spades Paired-Only genome was determined to be the best for continuing, so post processing occured on this genome.
-
-
-a. Standardizing Headers
-I moved /project/farman_s26abt480/xrar222/Bc394/Bc394_spades_assembly_noUnpairedReads/scaffolds.fasta to my working directory
+<details>
+<summary>Standardizing Headers</summary>
+1. I moved /project/farman_s26abt480/xrar222/Bc394/Bc394_spades_assembly_noUnpairedReads/scaffolds.fasta to my working directory
 
 ```
 cp /project/farman_s26abt480/xrar222/Bc394/Bc394_spades_assembly_noUnpairedReads/scaffolds.fasta /project/farman_s26abt480/xrar222/Bc394
 ```
-Moved script to simplify fasta headers into working directory using code: 
+2. Moved script to simplify fasta headers into working directory using code: 
 
 ```
 cp /project/farman_s26abt480/SCRIPTs/SimpleFastaHeaders.pl /project/farman_s26abt480/xrar222/Bc394
 ```
 
-Ran a perl script to rename the sequence headers to a standardized format
+3. Ran a perl script to rename the sequence headers to a standardized format:
 
 ```
 #!/usr/bin/perl
@@ -569,21 +597,20 @@ open(FASTA, "$Fasta");
 
 print "Conversion(s) finished.\n";
 ```
-Submitted using
+4. Submitted using the following command, and now, headers that looked like >NODE_1_length_307413_cov_14.483598 now look like Bc394_contig1
 
 ```
 perl SimpleFastaHeaders.pl /project/farman_s26abt480/xrar222/Bc394/scaffolds.fasta Bc394
 ```
+</details>
+<details>
+<summary>Removing Contigs <200bp + Removing Adapter Sequences</summary>
 
-Now, headers that looked like >NODE_1_length_307413_cov_14.483598 now look like Bc394_contig1
-
-b. Removing contigs <200bp and removing adaptor sequences
-
-Copied processing script:
+1.Copied processing script:
 ```
 cp /project/farman_s26abt480/SLURM_SCRIPTs/GenomePostProcess.sh /project/farman_s26abt480/xrar222/Bc394
 ```
-Script looks like: 
+2. Script looks like: 
 ```
 #!/bin/bash
 
@@ -626,39 +653,49 @@ cat $genome | python3 RESOURCES/fcs.py clean genome \
 
 ```
 
-Submitted:
+3. Submitted using the following code:
 
 ```
 sbatch /project/farman_s26abt480/xrar222/Bc394/GenomePostProcess.sh ./Bc394_newheader.fasta
 ```
+</details>
 
-## Final Assembly Data
+<details>
+<summary>Final Assembly Data</summary>
 
-Used Seqkit 
+1. Used Seqkit to inspect statistics on the final assembly:
 ```
  singularity run --app seqkit2900 /share/singularity/images/ccs/conda/amd-conda19-rocky9.sinf seqkit stats Bc394_final.fasta
 ```
-Output was:
+2. The output was:
 ```
 file               format  type  num_seqs     sum_len  min_len   avg_len  max_len
 Bc394_final.fasta  FASTA   DNA      2,960  43,534,695      200  14,707.7  307,413
 ```
-And N50 was calculated using:
+3. The N50 was calculated using:
 ```
 awk '/^>/ {if (l) print l; l=0; next} {l+=length($0)} END {print l}' Bc394_final.fasta | sort -nr | awk '{t+=$1; a[NR]=$1} END {h=t/2; s=0; for(i=1;i<=NR;i++){s+=a[i]; if(s>=h){print a[i]; exit}}}'
 ```
 
-Therefore:
+4. Fold coverage was calculated as:
+```
+   Total # of bases / Genome Size
+```
+
+4. The final genome data is as follows:
+
+```
 a. Genome Size: 43,534,695
 b. Number of Contigs: 2,960
 c. N50: 71,435
+d. Fold Coverage: 37.24
+```
+</details>
 
-Fold Coverage was calculated:
-Total # of bases / Genome Size
-
-## Genome Quality Assessment Using BUSCO
-
-Next we ran Busco using the ascomycota_odb10 lineage dataset. 
+## Genome Quality Assessment
+<details>
+<summary>BUSCO</summary>
+1. BUSCO was then ran using the ascomycota_odb10 lineage dataset. 
 
 ```
 #!/bin/bash
@@ -684,11 +721,15 @@ out=${in/\.fasta/}_busco
 singularity run --app busco570 /share/singularity/images/ccs/conda/amd-conda14-rocky8.sinf busco \
  --in $in --out $out --mode genome --lineage_dataset ascomycota_odb10 -f
 ```
-Submission was:
+
+2. Submission was completed using this command:
+   
 ```
 sbatch BuscoSingularity.sh ./Bc394_final.fasta
 ```
-Output was:
+
+3. The output was:
+
 ```
 # BUSCO version is: 5.7.0
 # The lineage dataset is: ascomycota_odb10 (Creation date: 2024-01-08, number of genomes: 365, number of BUSCOs: 1706)
@@ -723,9 +764,12 @@ Dependencies and versions:
         python: sys.version_info(major=3, minor=7, micro=12, releaselevel='final', serial=0)
         busco: 5.7.0
 ```
-## Using BLAST, Visualizing Genes, Performing Gene Predictions
-
-Using BLAST to find Mitochondrial sequences:
+</details>
+<details>
+<summary>BLAST for Mitochondrial Genes</summary>
+  
+1. BLAST was used to find mitochondrial sequences in the genome using the following script:
+  
 ```
 #!/bin/bash
 
@@ -743,16 +787,16 @@ Using BLAST to find Mitochondrial sequences:
 
 singularity run --app blast2120 /share/singularity/images/ccs/conda/amd-conda1-centos8.sinf blastn -query MoMitochondrion.fasta -subject Bc394_final.fasta -evalue 1e-50 -max_target_seqs 20000 -outfmt '6 qseqid sseqid slen length qstart qend sstart send btop' -out MoMitochondrion.Bc394.BLAST
 ```
-Sorting to only find the sequences that are 90% match or above:
+2. I then sorted to only find the sequences that are 90% match or above:
 ```
 awk '$4/$3 >= 0.9 {print $2 ",mitochondrion"}' MoMitochondrion.Bc394.BLAST > Bc394_mitochondrion.csv
 ```
-Then creating a different file to only find sequencines 90% match or below, so we can assess split parts
+3. Next a different file was created to only find sequencines 90% match or below, so we can assess the potential split parts of the mitochondria:
 
 ```
 awk '$4/$3 <= 0.9 {print}' MoMitochondrion.Bc394.BLAST > Bc394_short_mitochondrial_hits.txt
 ```
-FIGURING OUT MITOCHONDRIA
+4. In order to figure out what mitochondrial sequences had been split, the following information was used, where I was loking for where two separate sequences line up to the contig (query is mito, contig is subject).
 
 ```
 qseqid 		sseqid 			slen 	length 	qstart 	qend 	sstart 	send 	btop
@@ -763,7 +807,6 @@ MoMito.70-15    Bc394_contig1462        1076    534     16846   17379   543     
 MoMito.70-15    Bc394_contig1681        650     344     20997   21340   1       343     340C-3
 MoMito.70-15    Bc394_contig1681        650     344     20997   21340   650     308     340C-3
 ```
-Looking for where two separate sequences line up to the contig (query is mito, contig is subject)
 
 ```
 slen 		Full length of the subject sequence
@@ -773,17 +816,14 @@ qend 		End coordinate on query
 sstart 		Start coordinate on subject
 send		End coordinate on subject
 ```
-so therefore:
+5. Based on this data and analysis, the following contigs were added to the mitochondrial .csv because contig1122 had a 101 base difference (possible gap), and contig1462 and contig1681 overlapped. 
 
 ```
 Bc394_contig1122,mitochondrion
 Bc394_contig1462,mitochondrion
 Bc394_contig1681,mitochondrion
-  were added to .csv
-  because contig1122 had a 101 base difference (possible gap)
-  and contig1462 and contig1681 overlapped. 
 ```
-This is the mitochondiral contig file:[Bc394_mitochondrion.csv](https://github.com/user-attachments/files/26286668/Bc394_mitochondrion.csv)
+6. This is the mitochondiral contig file:[Bc394_mitochondrion.csv](https://github.com/user-attachments/files/26286668/Bc394_mitochondrion.csv)
 
 ```
 Bc394_contig829,mitochondrion
@@ -811,7 +851,9 @@ Bc394_contig1122,mitochondrion
 Bc394_contig1462,mitochondrion
 Bc394_contig1681,mitochondrion
 ```
-## Gene Prediction
+</details>
+
+## Visualizing Genes, Performing Gene Predictions
 <details>
 <summary>Setting up the HMM (Hidden Markov Model)</summary>
 
@@ -821,24 +863,24 @@ Bc394_contig1681,mitochondrion
 scp /project/farman_s26abt480/RESOURCES/B71Ref2_a0.3.gff3 xrar222@xrar222.cs.uky.edu:/home/xrar222/genes/snap
 ```
 
-The genome fasta sequence was appended to the gff3 file using the following command:
+2. The genome fasta sequence was appended to the gff3 file using the following command:
 
 ```
 echo '##FASTA' | cat B71Ref2_a0.3.gff3 - B71Ref2.fasta > B71Ref2.gff3
 ```
 
-The MAKER annotations were converted to ZFF for using in SNAP:
+3. The MAKER annotations were converted to ZFF for using in SNAP:
 
 ```
 maker2zff B71Ref2.gff3
 ```
 
-Information on the annotations was gathered using fathom:
+4. Information on the annotations was gathered using fathom:
 
 ```
 fathom genome.ann genome.dna -gene-stats
 ```
-Which resulted in:
+5. Which resulted in the following output:
 
 ```
 MODEL8478 skipped due to errors
@@ -851,19 +893,19 @@ MODEL8478 skipped due to errors
 103.271423 mean intron (min=11 max=2968)
 ```
 
-Genome regions containing unique genes were extracted using the following command, where 1000 indicates looking at up to 1000bp of intergenic sequence before and after each gene.
+6. Genome regions containing unique genes were extracted using the following command, where 1000 indicates looking at up to 1000bp of intergenic sequence before and after each gene.
 
 ```
 fathom genome.ann genome.dna -categorize 1000
 ```
 
-Gene statistics were looked at again, this time on the unique and non-overlapping genes without alternative splicing:
+7. Gene statistics were looked at again, this time on the unique and non-overlapping genes without alternative splicing:
 
 ```
 fathom uni.ann uni.dna -gene-stats
 ```
 
-Where the result was:
+8. Where the result was:
 
 ```
 10732 sequences
@@ -875,17 +917,17 @@ Where the result was:
 102.167183 mean intron (min=31 max=2105)
 ```
 
-The genome, transcript, and protein sequences were then exported along with 1000bp of "context" on either side, and being careful to flip genes on the reverse strand (using the -plus flag).
+9. The genome, transcript, and protein sequences were then exported along with 1000bp of "context" on either side, and being careful to flip genes on the reverse strand (using the -plus flag).
 
 ```
 fathom uni.ann uni.dna -export 1000 -plus
 ```
-Genestats was used to look at the export.ann and export.dna files. 
+10. Genestats was used to look at the export.ann and export.dna files. 
 
 ```
 fathom export.ann export.dna -gene-stats
 ```
-Where the ouput was:
+11. Where the ouput was:
 
 ```
 10732 sequences
@@ -897,44 +939,44 @@ Where the ouput was:
 102.167183 mean intron (min=31 max=2105)
 ```
 
-The forge command was used to train the HMM.
+12. The forge command was used to train the HMM.
 
 ```
 forge export.ann export.dna
 ```
 
-hmm-assembler was used to condense the forge created files to a single file for SNAP.
+13. hmm-assembler was used to condense the forge created files to a single file for SNAP.
 
 ```
 hmm-assembler.pl Moryzae . > Moryzae.hmm
 ```
 
-The Moryzae.hmm file was transferred from the VM to the MCC (from within the MCC)
+14. The Moryzae.hmm file was transferred from the VM to the MCC (from within the MCC)
 
 ```
 scp xrar222@xrar222.cs.uky.edu:/home/xrar222/genes/snap/Moryzae.hmm /project/farman_s26abt480/xrar222/Bc394/MAKER
 ```
-And the final genome file was transferred from the MCC to the VM:
+15. And the final genome file was transferred from the MCC to the VM:
 
 ```
 scp /project/farman_s26abt480/xrar222/FinalSubmittedToNCBI/Bc394_final.fasta xrar222@xrar222.cs.uky.edu:/home/xrar222/genes/snap/
 ```
 </details>
 <details>
-<summary>Running SNAP</summary>
-SNAP was run using the parameter file on the genome file, and directed to the Bc394-snap.zff file.
+<summary>Running Snap</summary>
+1. SNAP was run using the parameter file on the genome file, and directed to the Bc394-snap.zff file.
 
 ```
 snap-hmm Moryzae.hmm Bc394_final.fasta > Bc394-snap.zff
 ```
 
-Fathom was used to examine the .zff and .fasta files. 
+2. Fathom was used to examine the .zff and .fasta files. 
 
 ```
 fathom Bc394-snap.zff Bc394_final.fasta -gene-stats
 ```
 
-The output of fathom was:
+3. The output of fathom was:
 
 ```
 2960 sequences
@@ -945,13 +987,29 @@ The output of fathom was:
 586.166931 mean exon (min=4 max=19581)
 106.837311 mean intron (min=4 max=1410)
 ```
+4. The number of genes present was verified as 12,672 using this code:
 
-A GFF2 format was created using the following command:
+```
+awk '{print $9}' Bc394-snap.gff2 | sort -u | wc -l
+```
+
+5. A GFF2 format was created using the following command:
 
 ```
 snap-hmm Moryzae.hmm Bc394_final.fasta -gff > Bc394-snap.gff2
 ```
+</details> 
+<details>
+<summary>Running Augustus</summary>
 
+1. Augustus was run using the following code where: Magnaporthe grisea was used as the organism parameter file, gff3 was specified as the output file, genes were predicted on each strand seperately, a progress bar was used, and the information was redirected to Bc394-augustus.gff3.
 
+```
+augustus --species=magnaporthe_grisea --gff3=on --singlestrand=true --progress=true Bc394_final.fasta > Bc394-augustus.gff3
+```
+  
+</details>
+<details>
+<summary>Running MAKER</summary>
 
 </details>
