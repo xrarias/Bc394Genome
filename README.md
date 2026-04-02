@@ -875,6 +875,80 @@ Where the result was:
 102.167183 mean intron (min=31 max=2105)
 ```
 
+The genome, transcript, and protein sequences were then exported along with 1000bp of "context" on either side, and being careful to flip genes on the reverse strand (using the -plus flag).
+
+```
+fathom uni.ann uni.dna -export 1000 -plus
+```
+Genestats was used to look at the export.ann and export.dna files. 
+
+```
+fathom export.ann export.dna -gene-stats
+```
+Where the ouput was:
+
+```
+10732 sequences
+0.524754 avg GC fraction (min=0.357478 max=0.659509)
+10732 genes (plus=10732 minus=0)
+3370 (0.314014) single-exon
+7362 (0.685986) multi-exon
+586.630676 mean exon (min=6 max=13918)
+102.167183 mean intron (min=31 max=2105)
+```
+
+The forge command was used to train the HMM.
+
+```
+forge export.ann export.dna
+```
+
+hmm-assembler was used to condense the forge created files to a single file for SNAP.
+
+```
+hmm-assembler.pl Moryzae . > Moryzae.hmm
+```
+
+The Moryzae.hmm file was transferred from the VM to the MCC (from within the MCC)
+
+```
+scp xrar222@xrar222.cs.uky.edu:/home/xrar222/genes/snap/Moryzae.hmm /project/farman_s26abt480/xrar222/Bc394/MAKER
+```
+And the final genome file was transferred from the MCC to the VM:
+
+```
+scp /project/farman_s26abt480/xrar222/FinalSubmittedToNCBI/Bc394_final.fasta xrar222@xrar222.cs.uky.edu:/home/xrar222/genes/snap/
+```
+
+SNAP was run using the parameter file on the genome file, and directed to the Bc394-snap.zff file.
+
+```
+snap-hmm Moryzae.hmm Bc394_final.fasta > Bc394-snap.zff
+```
+
+Fathom was used to examine the .zff and .fasta files. 
+
+```
+fathom Bc394-snap.zff Bc394_final.fasta -gene-stats
+```
+
+The output of fathom was:
+
+```
+2960 sequences
+0.467022 avg GC fraction (min=0.148098 max=0.741935)
+12672 genes (plus=6380 minus=6292)
+4193 (0.330887) single-exon
+8479 (0.669113) multi-exon
+586.166931 mean exon (min=4 max=19581)
+106.837311 mean intron (min=4 max=1410)
+```
+
+A GFF2 format was created using the following command:
+
+```
+snap-hmm Moryzae.hmm Bc394_final.fasta -gff > Bc394-snap.gff2
+```
 
 
 
