@@ -452,7 +452,7 @@ Wick R.R., Schultz M.B., Zobel J. & Holt K.E. (2015). Bandage: interactive visua
 
 3. Used scp to download file of assembly graph to my local machine for examination:
 ```
-scp xrar222@mcc.uky.edu:/project/farman_s26abt480/xrar222/Bc394/Bc394_spades_assembly_noUnpairedReads/assembly_graph_with_scaffolds.gfa C:\Users\xrar222\Downloads​
+scp xrar222@mcc.uky.edu:/project/farman_s26abt480/xrar222/Bc394/Bc394_spades_assembly_noUnpairedReads/assembly_graph_with_scaffolds.gfa C:\Users\19042\Downloads​
 ```
 
 The following images resulted from using Bandage as directed in Module 3 in ABT485G, where we examined everything and then highlighted a nodeto explore further and gain understaning of how Bandage works:
@@ -1039,4 +1039,52 @@ augustus_species=magnaporthe_grisea
 keep_preds=1
 protein=/project/farman_s26abt480/xrar222/Bc394/MAKER/ncbi-protein-Magnaporthe_organism.fasta
 ```
+
+4. The Maker script was copied to the working directory.
+
+```
+cp /project/farman_s26abt480/SLURM_SCRIPTs/maker.sh /project/farman_s26abt480/xrar222/Bc394/MAKER
+```
+
+6. The Maker script looks like:
+  
+```
+#!/bin/bash
+
+#SBATCH --time 48:00:00
+#SBATCH --job-name=maker
+#SBATCH --nodes=1
+#SBATCH --ntasks=16
+#SBATCH --cpus-per-task=8
+#SBATCH --partition=normal
+#SBATCH --mem=500GB
+#SBATCH -A cea_farman_s26abt480
+#SBATCH --mail-type ALL
+#SBATCH --mail-user xrar222@uky.edu
+
+genome=$1
+
+singularity exec /share/singularity/images/ccs/MAKER/amd-maker-debian10.sinf maker --genome $genome 2>&1 | tee -- ${genome/\.fasta}_maker.log
+```
+
+8. The Maker script was submitted with the following command:
+
+```
+sbatch maker.sh /project/farman_s26abt480/xrar222/Bc394/MAKER/Bc394_final.fasta
+```
+
+</details>
+<details>
+  MAKER GFF2 NOT DOWNLOADEDTO LOCAL MACHINE YET
+<summary>IGV</summary>
+1. IGV was installed to my local machine.
+2. The following files were downloaded onto my local machine, inititating inside the local machine:
+
+```
+scp xrar222@xrar222.cs.uky.edu:/home/xrar222/genes/augustus/Bc394-augustus.gff3 C:\Users\19042\Downloads\IGVforClass
+scp xrar222@xrar222.cs.uky.edu:/home/xrar222/genes/augustus/Bc394_final.fasta C:\Users\19042\Downloads\IGVforClass
+scp xrar222@xrar222.cs.uky.edu:/home/xrar222/genes/snap/Bc394-snap.gff2 C:\Users\19042\Downloads\IGVforClass
+scp xrar22@mcc.uky.edu:/project/farman_s26abt480/xrar222/Bc394/MAKER/Bc394-maker.gff3 C:\Users\19042\Downloads\IGVforClass
+```
+
 </details>
