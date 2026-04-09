@@ -1073,12 +1073,30 @@ singularity exec /share/singularity/images/ccs/MAKER/amd-maker-debian10.sinf mak
 sbatch maker.sh /project/farman_s26abt480/xrar222/Bc394/MAKER/Bc394_final.fasta
 ```
 
+9. The Maker output was combined into a GFF file using the following script:
+
+```
+#!/bin/bash
+
+#SBATCH --time 1:00:00
+#SBATCH --job-name=makermerge
+#SBATCH --partition=normal
+#SBATCH -A cea_farman_s26abt480
+
+
+singularity exec /share/singularity/images/ccs/MAKER/amd-maker-debian10.sinf gff3_merge -d Bc394_final.maker.output/Bc394_final_master_datastore_index.log -o Bc394-maker.gff3
+```
+10. The number of genes found by MAKER was verified as 13,098 using this code:
+
+```
+grep -P "\tgene\t" Bc394-maker.gff3 | wc -l
+```
+
 </details>
 <details>
-  MAKER GFF2 NOT DOWNLOADEDTO LOCAL MACHINE YET
 <summary>IGV</summary>
 1. IGV was installed to my local machine.
-2. The following files were downloaded onto my local machine, inititating inside the local machine:
+2. The following files were downloaded onto my local machine, inititating inside the local machine using Powershell.
 
 ```
 scp xrar222@xrar222.cs.uky.edu:/home/xrar222/genes/augustus/Bc394-augustus.gff3 C:\Users\19042\Downloads\IGVforClass
@@ -1086,5 +1104,24 @@ scp xrar222@xrar222.cs.uky.edu:/home/xrar222/genes/augustus/Bc394_final.fasta C:
 scp xrar222@xrar222.cs.uky.edu:/home/xrar222/genes/snap/Bc394-snap.gff2 C:\Users\19042\Downloads\IGVforClass
 scp xrar22@mcc.uky.edu:/project/farman_s26abt480/xrar222/Bc394/MAKER/Bc394-maker.gff3 C:\Users\19042\Downloads\IGVforClass
 ```
+
+3. IGV and the genome was explored to examine differences and similarities between the different programs.
+   
+A screen shot of IGV browser window showing an example of a gene predicted only by snap
+<img width="515" height="351" alt="GeneSnapOnly" src="https://github.com/user-attachments/assets/a8fbb967-c067-4ce1-ab4c-eeb8dadc37ff" />
+
+A screen shot of IGV browser window showing an example of a gene predicted only by AUGUSTUS
+<img width="946" height="317" alt="GeneAugustusOnly" src="https://github.com/user-attachments/assets/bc416c95-282f-4a8c-87b6-362558f3d9ec" />
+
+A screen shot of a gene where snap and AUGUSTUS predict the same exon/intron structure
+<img width="763" height="334" alt="BothGene" src="https://github.com/user-attachments/assets/93667ae1-6adc-4d52-bf22-b3b413764188" />
+
+A screen shot of a gene where snap and AUGUSTUS predict a different exon/intron structure
+<img width="775" height="335" alt="image" src="https://github.com/user-attachments/assets/ea062fae-26fb-4cb7-a45a-cf0ffaf492fd" />
+
+A screen shot where a gene was successfully predicted by snap, AUGUSTUS, and MAKER and there is external evidence that the prediction is correct
+
+<img width="601" height="555" alt="image" src="https://github.com/user-attachments/assets/2e430e9d-cb05-4ee3-834e-f22f95069693" />
+
 
 </details>
