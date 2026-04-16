@@ -1500,11 +1500,12 @@ scp xrar22@mcc.uky.edu:/project/farman_s26abt480/xrar222/Bc394/MAKER/Bc394-maker
 
 </details>
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 <details>
 <summary>NEIGH!</summary>
   
 ```
+  
                            ___________ _
                       __/   .::::.-'-(/-/)
                     _/:  .::::.-' .-'\/\_`,
@@ -1523,5 +1524,5 @@ scp xrar22@mcc.uky.edu:/project/farman_s26abt480/xrar222/Bc394/MAKER/Bc394-maker
          _o\ \\\            (o_       |__\
          \ /  \\\__          )_\
                ^)__\
-```
+```               
 </details>
