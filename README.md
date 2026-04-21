@@ -156,21 +156,26 @@ java -jar trimmomatic-0.38.jar PE -threads 2 -phred33 -trimlog Br80_errorlog.txt
    Per sequence GC content (yellow)
    Sequence length distribution (yellow)
 ```
-
+<details>
+      <summary>2a. Click Here to View FastQC Read 1 Paired Report Image</summary>
 <img width="955" height="369" alt="Read1PairedTrimmedFastQCReport Bc394" src="https://github.com/user-attachments/assets/3907a69a-1565-46d5-8fad-22adab4ed9da" />
 
+</details>
+
    ```
-  Read 1 Unpaired:
+Read 1 Unpaired:
    Per tile sequence quality (yellow)
    Per base sequence content (red)
    Per sequence GC content (yellow)
    Sequence length distribution (yellow)
 ```
-
+<details>
+      <summary>2b. Click Here to View FastQC Read 1 Unpaired Report Image</summary>
 <img width="959" height="364" alt="Read1UnpairedTrimmedFastQCReport Bc394" src="https://github.com/user-attachments/assets/4212e10b-1feb-41ee-8090-bb37a7824a43" />
+</details>
 
   ```
-  Read 2 Paired:
+Read 2 Paired:
    Per tile sequence quality (yellow)
    Per base sequence content (red)
    Per sequence GC content (yellow)
@@ -178,7 +183,10 @@ java -jar trimmomatic-0.38.jar PE -threads 2 -phred33 -trimlog Br80_errorlog.txt
    Adapter content (yellow)
 ```
 
+<details>
+      <summary>2c. Click Here to View FastQC Read 2 Paired Report Image</summary>
 <img width="956" height="365" alt="Read2PairedTrimmedFastQCReport Bc394" src="https://github.com/user-attachments/assets/dbb00a54-51ed-47ca-a01b-5c1f4209a1c4" />
+</details>
 
    ```
   Read 2 Unpaired:
@@ -188,9 +196,10 @@ java -jar trimmomatic-0.38.jar PE -threads 2 -phred33 -trimlog Br80_errorlog.txt
    Sequence length distribution (yellow)
    Adapter content (red)
 ```
-
+<details>
+      <summary>2d. Click Here to View FastQC Read 2 Unpaired Report Image</summary>
 <img width="959" height="371" alt="Read2UnpairedTrimmedFastQCReport Bc394" src="https://github.com/user-attachments/assets/2d5a8a53-ab3e-4c97-bf73-cef17af6dd96" />
-
+</details>
 </details>
 
 <details>
@@ -828,8 +837,10 @@ Bc394_contig1122,mitochondrion
 Bc394_contig1462,mitochondrion
 Bc394_contig1681,mitochondrion
 ```
-6. This is the mitochondiral contig file:[Bc394_mitochondrion.csv](https://github.com/user-attachments/files/26286668/Bc394_mitochondrion.csv)
+6. This is the mitochondrial contig file:[Bc394_mitochondrion.csv](https://github.com/user-attachments/files/26286668/Bc394_mitochondrion.csv)
 
+<details>
+      <summary>6a. Click Here to View Mitocondrial Contig File Contents</summary>
 ```
 Bc394_contig829,mitochondrion
 Bc394_contig1011,mitochondrion
@@ -857,6 +868,7 @@ Bc394_contig1462,mitochondrion
 Bc394_contig1681,mitochondrion
 ```
 </details>
+</details>
 <details>
   <summary>BLASTing Against the B71v2sh Reference Genome</summary>
 1. The final Bc394 genome assembly and B71 reference genome were copied from the MCC to the VM using the following command:
@@ -882,7 +894,8 @@ grep -c "# 0 hits found" Bc394.B71.BLAST
 ```
 awk '/^# Query:/ {q=$3} /^# 0 hits found$/ {print q}' Bc394.B71.BLAST > Bc394Contigs.NoMatch.B71.txt
 ```
-
+<details>
+      <summary>4a. Click Here to View a List of Bc394 Contigs with No Matches</summary>
 ```
 Bc394_contig769
 Bc394_contig783
@@ -1220,6 +1233,7 @@ Bc394_contig2954
 Bc394_contig2956
 ```
 </details>
+</details>
 
 ## Visualizing Genes, Performing Gene Predictions
 <details>
@@ -1479,29 +1493,37 @@ scp xrar22@mcc.uky.edu:/project/farman_s26abt480/xrar222/Bc394/MAKER/Bc394-maker
 ```
 
 3. IGV and the genome was explored to examine differences and similarities between the different programs.
-   
-3a. A screen shot of IGV browser window showing an example of a gene predicted only by snap
+
+<details>
+<summary>3a. A screen shot of IGV browser window showing an example of a gene predicted only by snap</summary>
 <img width="515" height="351" alt="GeneSnapOnly" src="https://github.com/user-attachments/assets/a8fbb967-c067-4ce1-ab4c-eeb8dadc37ff" />
+</details>
 
-3b. A screen shot of IGV browser window showing an example of a gene predicted only by AUGUSTUS
+<details>
+<summary>3b. A screen shot of IGV browser window showing an example of a gene predicted only by AUGUSTUS</summary>
 <img width="845" height="540" alt="AugustusOnlyfinal" src="https://github.com/user-attachments/assets/1beede5b-6f60-4dc5-a50f-949ba2080654" />
+</details>
 
-3c. A screen shot of IGV browser window showing an example of a gene predicted only by MAKER
+<details>
+<summary>3c. A screen shot of IGV browser window showing an example of a gene predicted only by MAKER</summary>
 <img width="787" height="470" alt="image" src="https://github.com/user-attachments/assets/552190c6-7c6d-4c40-bb2e-2f5c0e1e65bc" />
+</details>
 
-3d. A screen shot of a gene where snap and AUGUSTUS predict the same exon/intron structure
+<details>
+<summary>3d. A screen shot of a gene where snap and AUGUSTUS predict the same exon/intron structure</summary>
 <img width="763" height="334" alt="BothGene" src="https://github.com/user-attachments/assets/93667ae1-6adc-4d52-bf22-b3b413764188" />
+</details>
 
-3e. Screenshots of genes where snap and AUGUSTUS predict a different exon/intron structure
+<details>
+<summary>3e. Screenshots of genes where snap and AUGUSTUS predict a different exon/intron structure</summary>
 <img width="946" height="317" alt="GeneAugustusOnly" src="https://github.com/user-attachments/assets/50bb8a27-d6b9-4ebd-922f-dbcaee47e855" />
-
 <img width="775" height="335" alt="image" src="https://github.com/user-attachments/assets/ea062fae-26fb-4cb7-a45a-cf0ffaf492fd" />
+</details>
 
-3f. A screen shot where a gene was successfully predicted by snap, AUGUSTUS, and MAKER with external evidence that the prediction is correct
-
+<details>
+<summary>3f. A screen shot where a gene was successfully predicted by snap, AUGUSTUS, and MAKER with external evidence that the prediction is correct</summary>
 <img width="601" height="555" alt="image" src="https://github.com/user-attachments/assets/2e430e9d-cb05-4ee3-834e-f22f95069693" />
-
-
+</details>
 </details>
 
 
