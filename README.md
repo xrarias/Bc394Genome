@@ -471,11 +471,12 @@ scp xrar222@mcc.uky.edu:/project/farman_s26abt480/xrar222/Bc394/Bc394_spades_ass
 
 The following images resulted from using Bandage as directed in Module 3 in ABT485G, where we examined everything and then highlighted a nodeto explore further and gain understaning of how Bandage works:
 
-
+<details>
+<summary>Click Here to View Bandage Plot Images</summary>
 <img width="308" height="311" alt="Bandange_SpadesGraphNode_Bc394_SNIP" src="https://github.com/user-attachments/assets/255e9900-d552-4959-8686-c9a234c2487f" />
 
 <img width="723" height="431" alt="Bandange_SpadesGraphNode_Bc394" src="https://github.com/user-attachments/assets/d2d19b07-14a2-4660-b51a-c08507a59d4d" />
-
+</details>
 </details>
 
 ## Genome Post-Processing
