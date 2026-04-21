@@ -842,6 +842,7 @@ Bc394_contig1681,mitochondrion
 
 <details>
       <summary>6a. Click Here to View Mitocondrial Contig File Contents</summary>
+  
 ```
 Bc394_contig829,mitochondrion
 Bc394_contig1011,mitochondrion
@@ -890,13 +891,14 @@ blastn -query Bc394_final.fasta -subject B71.fasta -evalue 1e-100 -outfmt 7 > Bc
 grep -c "# 0 hits found" Bc394.B71.BLAST
 ```
 
-4. A list of the Bc394 contigs with no matches was generated using this code and generating the list below:
+4. A list of the Bc394 contigs with no matches was generated using this code and generating the list below. There were 303 contigs with no matches. 
 
 ```
 awk '/^# Query:/ {q=$3} /^# 0 hits found$/ {print q}' Bc394.B71.BLAST > Bc394Contigs.NoMatch.B71.txt
 ```
 <details>
       <summary>4a. Click Here to View a List of Bc394 Contigs with No Matches</summary>
+  
 ```
 Bc394_contig769
 Bc394_contig783
@@ -1482,6 +1484,12 @@ awk '$3 == "gene"' Bc394-maker.gff3 | wc -l
 
 </details>
 <details>
+  <summary>Snap, MAKER, and Augustus Gene Prediction Numbers</summary>
+  1.Below is a table summarizing the number of predicted genes across the 3 programs:
+  <img width="457" height="159" alt="image" src="https://github.com/user-attachments/assets/bf0a9fdd-8489-4768-a709-3b3f53d10190" />
+
+</details>
+<details>
 <summary>IGV</summary>
 1. IGV was installed to my local machine.
 2. The following files were downloaded onto my local machine, inititating inside the local machine using Powershell.
@@ -1527,6 +1535,17 @@ scp xrar22@mcc.uky.edu:/project/farman_s26abt480/xrar222/Bc394/MAKER/Bc394-maker
 </details>
 </details>
 
+4. In order to determine if there were regions in the B71 genome NOT present in the Bc394 genome by visual comparison in IGV, the BLAST alignment was converted to a gff3 using the following code, where Query Seq ID was used at the Seq ID, my source is "Awk" and my Type is "BLAST". Column 9 in the gff was "none" and phase was a dot "."
+
+```
+awk 'BEGIN{OFS="\t"; print "##gff-version 3"} $0!~/^#/{s=($7<$8?$7:$8); e=($7<$8?$8:$7); st=($7<=$8?"+":"-"); print $1,"Awk","BLAST",s,e,".",st,".","Gene_ID=none"}' Bc394.B71.BLAST > Bc394.B71.BLAST.gff3
+```
+5. The gff3 file created and the B71 fasta file were downloaded to my local machine using the following command:
+
+```
+scp xrar222@xrar222.cs.uky.edu:/home/xrar222/blast/Bc394.B71.BLAST.gff3 C:\Users\19042\Downloads\IGVforClass
+scp xrar222@xrar222.cs.uky.edu:/home/xrar222/blast/B71.fasta C:\Users\19042\Downloads\IGVforClass
+```
 
 <details>
 <summary>NEIGH!</summary>
