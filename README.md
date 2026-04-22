@@ -891,7 +891,7 @@ blastn -query Bc394_final.fasta -subject B71.fasta -evalue 1e-100 -outfmt 7 > Bc
 grep -c "# 0 hits found" Bc394.B71.BLAST
 ```
 
-4. A list of the Bc394 contigs with no matches was generated using this code and generating the list below. There were 303 contigs with no matches. 
+4. A list of the Bc394 contigs with no matches was generated using this code and generating the list below. There were 334 contigs with no matches in the B71 reference genome.
 
 ```
 awk '/^# Query:/ {q=$3} /^# 0 hits found$/ {print q}' Bc394.B71.BLAST > Bc394Contigs.NoMatch.B71.txt
@@ -1236,6 +1236,14 @@ Bc394_contig2954
 Bc394_contig2956
 ```
 </details>
+
+5. A new BLAST was run with B71 as the query and Bc394 as the subject to facilitate downstream applications. The following command was used:
+
+```
+blastn -query B71.fasta -subject Bc394_final.fasta -evalue 1e-100 -outfmt 7 > B71.Bc394.BLAST
+```
+
+</details>
 </details>
 
 ## Visualizing Genes, Performing Gene Predictions
@@ -1533,20 +1541,23 @@ scp xrar22@mcc.uky.edu:/project/farman_s26abt480/xrar222/Bc394/MAKER/Bc394-maker
 <summary>3f. A screen shot where a gene was successfully predicted by snap, AUGUSTUS, and MAKER with external evidence that the prediction is correct</summary>
 <img width="601" height="555" alt="image" src="https://github.com/user-attachments/assets/2e430e9d-cb05-4ee3-834e-f22f95069693" />
 </details>
-</details>
 
-4. In order to determine if there were regions in the B71 genome NOT present in the Bc394 genome by visual comparison in IGV, the BLAST alignment was converted to a gff3 using the following code, where Query Seq ID was used at the Seq ID, my source is "Awk" and my Type is "BLAST". Column 9 in the gff was "none" and phase was a dot "."
 
-```
-awk 'BEGIN{OFS="\t"; print "##gff-version 3"} $0!~/^#/{s=($7<$8?$7:$8); e=($7<$8?$8:$7); st=($7<=$8?"+":"-"); print $1,"Awk","BLAST",s,e,".",st,".","Gene_ID=none"}' Bc394.B71.BLAST > Bc394.B71.BLAST.gff3
-```
-5. The gff3 file created and the B71 fasta file were downloaded to my local machine using the following command:
+4. In order to determine if there were regions in the Bc394 genome NOT present in the B71 reference genome by visual comparison in IGV, the BLAST alignment done in step 5 of the BLAST section (B71 as query, Bc394 as subject) was converted to a gff3 using the following code, where Query Seq ID was used as the Seq ID, my source is "Awk" and my Type is "BLAST". Column 9/Gene ID in the gff was "none" and phase was a dot ".".
 
 ```
-scp xrar222@xrar222.cs.uky.edu:/home/xrar222/blast/Bc394.B71.BLAST.gff3 C:\Users\19042\Downloads\IGVforClass
+awk 'BEGIN{OFS="\t"; print "##gff-version 3"} $0!~/^#/{st=($7<=$8?"+":"-"); s=($7<=$8?$7:$8); e=($7<=$8?$8:$7); print $1,"Awk","BLAST",s,e,".",st,".","Gene_ID=none"}' B71.Bc394.BLAST > B71.Bc394.BLAST.gff3
+```
+5. The gff3 file created and the B71 fasta file were downloaded to my local machine using the following commands:
+
+```
+scp xrar222@xrar222.cs.uky.edu:/home/xrar222/blast/B71.Bc394.BLAST.gff3 C:\Users\19042\Downloads\IGVforClass
 scp xrar222@xrar222.cs.uky.edu:/home/xrar222/blast/B71.fasta C:\Users\19042\Downloads\IGVforClass
 ```
+6. The gff3 file and B71 reference genome were uploaded into IGV to examine the comparison for parts of the B71 genome that are present that the Bc394 genome did not have. 
+</details>
 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 <details>
 <summary>NEIGH!</summary>
   
