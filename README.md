@@ -1593,7 +1593,127 @@ scp xrar222@xrar222.cs.uky.edu:/home/xrar222/blast/B71.fasta C:\Users\19042\Down
 </details>
 <details>
 <summary>Using RNAseq to Confirm Predictions</summary>
-1. 
+1. HiSat2 was used to align RNAseq from a P. oryzae FR13 and P. oryzae SS1D16 to Bc394. RNASeq reads were transferred to the working directory using the command below. 
+
+  ```
+cp /project/farman_s26abt480/RNASeqData/FR13_inCulture.fastq.gz /project/farman_s26abt480/xrar222/RNAseq
+cp /project/farman_s26abt480/RNASeqData/SSID116_inPlanta.fastq.gz /project/farman_s26abt480/xrar222/RNAseq
+
+```
+2. The script, seen in the second code box below, for the RNASeq mapping process was transferred to the working directory using the following command.
+
+```
+cp /project/farman_s26abt480/SLURM_SCRIPTs/hisat2.sh /project/farman_s26abt480/xrar222/RNAseq
+```
+
+```
+#!/bin/bash
+
+# Aligns RNAseq reads against a specified reference genome
+
+#SBATCH --time 24:00:00
+#SBATCH --job-name=hisat2-align
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --partition=normal
+#SBATCH --mail-type ALL
+#SBATCH --mem=128GB
+#SBATCH -A cea_farman_s26abt480
+#SBATCH --mail-type ALL
+#SBATCH --mail-user xrar222@uky.edu
+
+echo "SLURM_NODELIST: "$SLURM_NODELIST
+echo "PWD :" $PWD
+
+
+refpath=$1
+refgenome=${refpath/*\//}
+refname=${refgenome/_*/}
+refname=${refname/\.*/}
+
+RNAseqPath=$2
+RNAseqReads=${RNAseqPath/*\//}
+RNAseqName=${RNAseqReads/_*/}
+RNAseqName=${RNAseqName/\.*/}
+
+# create a directory for the index
+mkdir index
+
+# copy refgenome into index directory
+cp $refpath index/${refname}.fasta
+
+# build the HISAT2 index
+singularity run --app hisat2221 /share/singularity/images/ccs/conda/amd-conda2-centos8.sinf hisat2-build index/${refname}.fasta index/$refname
+
+# create directory for alignments
+mkdir ${refname}_alignments
+
+
+# align reads1 with HISAT2
+singularity run --app hisat2221 /share/singularity/images/ccs/conda/amd-conda2-centos8.sinf hisat2 -p 16 \
+        -x index/$refname -U $RNAseqPath --no-unal --max-intronlen 2000 --summary-file ${refname}_alignments/${RNAseqName}_${refname}_summary.txt \
+        | singularity run --app samtools115 /share/singularity/images/ccs/samtools-libdeflate/samtools-1.15.sinf samtools sort - \
+        -@ 16 -O bam -o ${refname}_alignments/${RNAseqName}_${refname}_hits.bam
+
+#index the bam file
+singularity run --app samtools115 /share/singularity/images/ccs/samtools-libdeflate/samtools-1.15.sinf samtools index \
+        ${refname}_alignments/${RNAseqName}_${refname}_hits.bam
+```
+3a. The hisat2 script was first run against the Bc394 assembly and the P. oryzae FR13 organism grown in culture. 
+
+```
+sbatch hisat2.sh /project/farman_s26abt480/xrar222/FinalSubmittedToNCBI/Bc394_final.fasta FR13_inCulture.fastq.gz
+```
+3b. The P. oryzae FR13 alignment output was as follows:
+
+```
+13977971 reads; of these:
+  13977971 (100.00%) were unpaired; of these:
+  5898074 (42.20%) aligned 0 times
+  7967983 (57.00%) aligned exactly 1 time
+  111914 (0.80%) aligned >1 times
+  57.80% overall alignment rate
+```
+
+
+4a. The hisat2 script was then run against the Bc394 assembly and the P. oryzae SSID16 grown in plants, specifically rice leaves. The fraction of reads that aligned were:
+  
+```
+sbatch hisat2.sh /project/farman_s26abt480/xrar222/FinalSubmittedToNCBI/Bc394_final.fasta SSID116_inPlanta.fastq.gz
+```
+4b.  The P. oryzae SSID16 alignment output was as follows:
+
+```
+28650911 reads; of these:
+  28650911 (100.00%) were unpaired; of these:
+  15498672 (54.09%) aligned 0 times
+  12967092 (45.26%) aligned exactly 1 time
+  185147 (0.65%) aligned >1 times
+  45.91% overall alignment rate
+
+```
+5. The alignment (.bam) and index (.bai) files were then downloaded to the local machine for viewing in IGV using the following command:
+
+```
+
+scp xrar222@mcc.uky.edu:/project/farman_s26abt480/xrar222/RNAseq/Bc394_alignments/FR13_Bc394_hits.bam C:\Users\19042\Downloads\IGVforClass
+scp xrar222@mcc.uky.edu:/project/farman_s26abt480/xrar222/RNAseq/Bc394_alignments/FR13_Bc394_hits.bam.bai C:\Users\19042\Downloads\IGVforClass
+scp xrar222@mcc.uky.edu:/project/farman_s26abt480/xrar222/RNAseq/Bc394_alignments/SSID116_Bc394_hits.bam C:\Users\19042\Downloads\IGVforClass
+scp xrar222@mcc.uky.edu:/project/farman_s26abt480/xrar222/RNAseq/Bc394_alignments/SSID116_Bc394_hits.bam.bai C:\Users\19042\Downloads\IGVforClass
+```
+
+6. The alignments were uploaded into IGV against the Bc394 genome to answer and collect images on the following points of interest:
+
+<details><summary>6a.Genes with predicted introns where the RNAsew data supports the placement of the predicted introns:</summary> IMAGE HERE </details>
+
+<details><summary>6b. Genes with predicted introns where the introns are spliced/not spliced 100% of the time:</summary> IMAGE HERE </details>
+  
+<details><summary>6c. Genes that are only expressed in culture:</summary> IMAGE HERE </details>
+<details><summary>6d. Genes that are only expressed in planta:</summary> IMAGE HERE </details>
+<details><summary>6e. Predicted genes with no evidence of expression:</summary> IMAGE HERE </details>
+<details><summary>6f. Expressed genes that were not predicted:</summary> IMAGE HERE </details>
+
 </details>
 
   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
