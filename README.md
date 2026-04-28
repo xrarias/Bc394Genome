@@ -1705,20 +1705,24 @@ scp xrar222@mcc.uky.edu:/project/farman_s26abt480/xrar222/RNAseq/Bc394_alignment
 
 6. The alignments were uploaded into IGV against the Bc394 genome and gene predictions to answer and collect images on the following points of interest:
 
-<details><summary>6a.Genes with predicted introns where the RNAseq data supports the placement of the predicted introns:</summary> IMAGE HERE </details>
+<details><summary>6a.Genes with predicted introns where the RNAseq data supports the placement of the predicted introns:</summary> <img width="952" height="516" alt="Intronicregions" src="https://github.com/user-attachments/assets/b3f7cf31-6061-4da2-8901-916bdbc7682e" />
+</details>
 
-<details><summary>6b. Genes with predicted introns where the introns are spliced/not spliced 100% of the time:</summary> IMAGE HERE </details>
+<details><summary>6b. Genes with predicted introns where the introns are spliced/not spliced 100% of the time:</summary> <img width="952" height="555" alt="OneIntronreadnotleftout" src="https://github.com/user-attachments/assets/fbe5d9b3-e3ab-46e1-b5ac-3012318d2742" /> <img width="938" height="511" alt="2intronsreadsandnotleftout" src="https://github.com/user-attachments/assets/0ed3bc6b-f44a-41cb-82a3-e1b1c703a88a" /> <img width="947" height="515" alt="Splicedallthetime" src="https://github.com/user-attachments/assets/f9b6fda4-5cb1-4e85-8b50-ced0939c4e69" />
+</details>
   
-<details><summary>6c. Genes that are only expressed in culture:</summary> <img width="953" height="547" alt="image" src="https://github.com/user-attachments/assets/5d9de5ba-c552-4b34-9c23-9a26be62c34e" />
+<details><summary>6c. Genes that are only expressed in culture:</summary> <img width="953" height="547" alt="image" src="https://github.com/user-attachments/assets/5d9de5ba-c552-4b34-9c23-9a26be62c34e" /> <img width="944" height="544" alt="OnlyExpressedinCultureandNoPredictions" src="https://github.com/user-attachments/assets/5075645a-c090-4730-a306-cff45520c207" />
  </details>
 
 <details><summary>6d. Genes that are only expressed in planta:</summary> <img width="943" height="553" alt="image" src="https://github.com/user-attachments/assets/cc9ecb36-8ff8-4de6-9d22-04f62f8db2f6" />
  </details>
 
-<details><summary>6e. Predicted genes with no evidence of expression:</summary> <img width="898" height="549" alt="Predicted AlmostNoEvidenceRNA" src="https://github.com/user-attachments/assets/223609d1-b7c9-4831-9562-b3b252d7545c" />
+<details><summary>6e. Predicted genes with no evidence of expression:</summary> <img width="898" height="549" alt="Predicted AlmostNoEvidenceRNA" src="https://github.com/user-attachments/assets/223609d1-b7c9-4831-9562-b3b252d7545c" /> <img width="949" height="548" alt="GenespredictedwithnoExpression" src="https://github.com/user-attachments/assets/57aa4791-e721-47f1-a70e-75aa318f13e2" />
+
 </details>
 
-<details><summary>6f. Expressed genes that were not predicted:</summary> <img width="617" height="554" alt="Expressed NotPredicted" src="https://github.com/user-attachments/assets/2b6675d9-e855-4939-bea8-587bcc5f97e4" />
+<details><summary>6f. Expressed genes that were not predicted:</summary> <img width="617" height="554" alt="Expressed NotPredicted" src="https://github.com/user-attachments/assets/2b6675d9-e855-4939-bea8-587bcc5f97e4" /> <img width="944" height="544" alt="OnlyExpressedinCultureandNoPredictions" src="https://github.com/user-attachments/assets/0769e0b5-3683-428b-96f8-2bf56214cd1b" />
+
  </details>
 
 </details>
