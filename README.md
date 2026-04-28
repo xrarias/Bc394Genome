@@ -1721,7 +1721,8 @@ scp xrar222@mcc.uky.edu:/project/farman_s26abt480/xrar222/RNAseq/Bc394_alignment
 
 </details>
 
-<details><summary>6f. Expressed genes that were not predicted:</summary> <img width="617" height="554" alt="Expressed NotPredicted" src="https://github.com/user-attachments/assets/2b6675d9-e855-4939-bea8-587bcc5f97e4" /> <img width="944" height="544" alt="OnlyExpressedinCultureandNoPredictions" src="https://github.com/user-attachments/assets/0769e0b5-3683-428b-96f8-2bf56214cd1b" />
+<details><summary>6f. Expressed genes that were not predicted:</summary> <img width="617" height="554" alt="Expressed NotPredicted" src="https://github.com/user-attachments/assets/2b6675d9-e855-4939-bea8-587bcc5f97e4" /> <img width="944" height="544" alt="OnlyExpressedinCultureandNoPredictions" src="https://github.com/user-attachments/assets/0769e0b5-3683-428b-96f8-2bf56214cd1b" /> <img width="940" height="528" alt="image" src="https://github.com/user-attachments/assets/d43a0882-8a16-4a6a-afd6-a22bbaeb2732" />
+
 
  </details>
 
