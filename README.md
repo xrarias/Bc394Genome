@@ -1727,7 +1727,7 @@ scp xrar222@mcc.uky.edu:/project/farman_s26abt480/xrar222/RNAseq/Bc394_alignment
 
 </details>
 
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 <details>
 <summary>NEIGH!</summary>
   
