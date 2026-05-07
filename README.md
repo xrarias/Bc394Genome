@@ -1792,7 +1792,7 @@ CAGATATGTAACTATACGCTCTGGCCATCAAAAGGCTCTCAATCTCCAAAAACCA</details>
 
 <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 <details>
-<summary>NEIGH!</summary>
+<summary>.</summary>
   
 ```
   
